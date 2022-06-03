@@ -3,6 +3,9 @@ import random
 import pdfkit
 import os
 import configparser
+from datetime import date
+
+today = date.today()
 
 Abholungen = 0
 Lieferungen = 0
@@ -19,9 +22,11 @@ if not isExist:
   # Create a new directory because it does not exist 
   os.makedirs(path)
   print(FOLDER_NAME + " does not exist --> create a new one")
-DAY = input("Bitte geben Sie den Tag an: ")
-MONTH = input("Bitte geben Sie den Monat an: ")
-YEAR = input("Bitte geben Sie das Jahr an: ")
+DAY = today.strftime("%d") #input("Bitte geben Sie den Tag an: ")
+MONTH = today.strftime("%m")#input("Bitte geben Sie den Monat an: ")
+YEAR = today.strftime("%Y")#input("Bitte geben Sie das Jahr an: ")
+
+print( "Datum: " + DAY + "." + MONTH + "." + YEAR)
 
 
 CONFIG = configparser.ConfigParser()
