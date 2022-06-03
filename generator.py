@@ -9,7 +9,7 @@ Lieferungen = 0
 
 FOLDER_NAME = 'MonatsUmsatz'
 
-path = './' + FOLDER_NAME
+path = '../' + FOLDER_NAME
 
 # Check whether the specified path exists or not
 isExist = os.path.exists(path)
@@ -18,11 +18,11 @@ if not isExist:
   
   # Create a new directory because it does not exist 
   os.makedirs(path)
-  print("pdf does not exist --> create a new one")
-
+  print(FOLDER_NAME + " does not exist --> create a new one")
+DAY = input("Bitte geben Sie den Tag an: ")
 MONTH = input("Bitte geben Sie den Monat an: ")
 YEAR = input("Bitte geben Sie das Jahr an: ")
-DAY = 1
+
 
 CONFIG = configparser.ConfigParser()
 CONFIG.read('config.ini')
@@ -30,18 +30,12 @@ CONFIG.read('config.ini')
 # configure pdfkit to point to our installation of wkhtmltopdf
 config = pdfkit.configuration(wkhtmltopdf = r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe")
 
-htmlpage = []
 
-for i in range(0, 31):
-    if DAY < 10:
-        DAY = "0" + str(DAY)
-    else:
-        DAY = str(DAY)
-    Abholungen = round(random.uniform(5.50, 24.80), 1)
-    Lieferungen = round(random.uniform(6.50, 24.80), 1)
-    gesamt = Abholungen+Lieferungen
-    MwSt = round((gesamt/1.19)*0.19, 1)
-    htmlpage.append( """
+Abholungen = round(random.uniform(5.50, 24.80), 1)
+Lieferungen = round(random.uniform(6.50, 24.80), 1)
+gesamt = Abholungen+Lieferungen
+MwSt = round((gesamt/1.07)*0.07, 1)
+htmlpage =  """
                     <!DOCTYPE html>
 <html lang="de">
 
@@ -74,7 +68,7 @@ for i in range(0, 31):
 
 <body>
     <h1 align="center">Umsatz</h1>
-    <p><b>Datum:</b> """+ str(DAY) + "." + MONTH + "." + YEAR  +"""</p>
+    <p><b>Datum:</b> """+ (DAY + "." + MONTH + "." + YEAR  +"""</p>
     <br>
     <hr>
     <div class="row">
@@ -102,11 +96,11 @@ for i in range(0, 31):
             <p>Abholungen  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"""+str(Abholungen)+"""0 €</p>
             <p>Lieferungen  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;"""+str(Lieferungen)+"""0 €</p>
             <hr align="center" style="width: 50%;">
-            <p>zu versteuern mit 7%   &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 0.00 €</p>
-            <p>Inc. 7% MwSt.   &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;0.00 €</p>
+            <p>zu versteuern mit 19%   &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; 0.00 €</p>
+            <p>Inc. 19% MwSt.   &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;0.00 €</p>
             <hr align="center" style="width: 50%;">
-            <p>zu versteuern mit 19%    &nbsp;&nbsp; &nbsp;&nbsp;  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; """+str(round((Abholungen+Lieferungen),1))+"""0 €</p>
-            <p>Inc. 19% MwSt.   &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; """+str(MwSt)+"""0 €</p>
+            <p>zu versteuern mit 7%    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; """+str(round((Abholungen+Lieferungen),1))+"""0 €</p>
+            <p>Inc. 7% MwSt.   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; """+str(MwSt)+"""0 €</p>
             <br>
             <br>
             <br>
@@ -141,19 +135,16 @@ for i in range(0, 31):
 
 </html>
                 """)
-    DAY = int(DAY)
-    DAY += 1
 isExist = os.path.exists(path + "/" + MONTH + "." + YEAR)
 
 if not isExist:
   
   # Create a new directory because it does not exist 
   os.makedirs(path + "/" + MONTH + "." + YEAR)
-  print("pdf does not exist --> create a new one")
+  print(MONTH + "." + YEAR + " does not exist --> create a new one")
 
 print ("Writing to file...")
 
-for i in range(0, 31):
-    pdfkit.from_string(htmlpage[i], path + "/"  + MONTH + "." + YEAR+"/"+ str(i+1) +"_"+MONTH+"_"+YEAR+  ".pdf", configuration=config)
+pdfkit.from_string(htmlpage, path + "/"  + MONTH + "." + YEAR+"/"+ DAY +"_"+MONTH+"_"+YEAR+  ".pdf", configuration=config)
 
 print("\nDone")
